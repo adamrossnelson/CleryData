@@ -14,7 +14,6 @@
 # Intended for use with IPEDS panel data files built from
 # https://github.com/adamrossnelson/StataIPEDSAll
 
-
 from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
@@ -27,15 +26,15 @@ except WebDriverException:
     print('    Verify geckodriver installation: \n    https://github.com/mozilla/geckodriver/releases', end='\n')
     print('    Report issues at: https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
 
-# At time of last successful test, Clery data website was: https://ope.ed.gov/campussafety/#/datafile/list
 try:
+    # At time of last successful test, Clery data website was: https://ope.ed.gov/campussafety/#/datafile/list
     # Visit Clery data website.
     browser.get('https://ope.ed.gov/campussafety/#/datafile/list')
 except WebDriverException:
     # Report errors and next steps if website not available.
     print('\n\n    There was an error. Verify web address is stil current: \n    https://ope.ed.gov/campussafety/#/datafile/list', end='\n')
     print('    Verify working internet connection.', end='\n')
-    print('    If web address of date, report issues at: https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
+    print('    If web address out of date, report issues at: https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
     
 while True:
     try:
@@ -50,4 +49,5 @@ while True:
     except NoSuchElementException:
         print('\n\n    There was an error. Possible change in css selector syntax.', end='\n')
         print('    Report issues at: \n    https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
+        # Sleep for one second to reduce demand on server.
         sleep(1)
