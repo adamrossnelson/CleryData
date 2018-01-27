@@ -37,16 +37,15 @@ except WebDriverException:
     print('    If web address out of date, report issues at: https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
     
 while True:
-    try:
-        elems = browser.find_elements_by_css_selector("ul.file-list li:first-child a")
-        if elems:
-            for elem in elems:
-                elem.click()
-                print('\n\n    Succes: Visit Firefox window to complete file downloads.', end='\n')
-                print('    Thanks for using: https://github.com/adamrossnelson/CleryData.', end='\n\n')
-                # See also: https://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox
-            break
-    except NoSuchElementException:
+    elems = browser.find_elements_by_css_selector("ul.file-list li:first-child a")
+    if elems != []:
+        print('\n\n    Succes: Visit Firefox window to complete file downloads.', end='\n')
+        print('    Thanks for using: https://github.com/adamrossnelson/CleryData.', end='\n\n')
+        for elem in elems:
+            elem.click()
+            # See also: https://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox
+        break
+    elif elems == []:
         print('\n\n    There was an error. Possible change in css selector syntax.', end='\n')
         print('    Report issues at: \n    https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
         # Sleep for one second to reduce demand on server.
