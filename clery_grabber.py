@@ -14,6 +14,7 @@
 # Intended for use with IPEDS panel data files built from
 # https://github.com/adamrossnelson/StataIPEDSAll
 
+import sys
 from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
@@ -24,7 +25,9 @@ try:
 except WebDriverException:
     print('\n\n    There was an error. Verify Firefox is properly installed.', end='\n')
     print('    Verify geckodriver installation: \n    https://github.com/mozilla/geckodriver/releases', end='\n')
+    print('    Windows: place version of geckodriver.exe appropriate for your system in a sytem path location', end='\n')
     print('    Report issues at: https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
+    sys.exit()
 
 try:
     # At time of last successful test, Clery data website was: https://ope.ed.gov/campussafety/#/datafile/list
@@ -35,7 +38,8 @@ except WebDriverException:
     print('\n\n    There was an error. Verify web address is stil current: \n    https://ope.ed.gov/campussafety/#/datafile/list', end='\n')
     print('    Verify working internet connection.', end='\n')
     print('    If web address out of date, report issues at: https://github.com/adamrossnelson/CleryData/issues', end='\n\n')
-    
+    sys.exit()
+
 while True:
     elems = browser.find_elements_by_css_selector("ul.file-list li:first-child a")
     if elems != []:
