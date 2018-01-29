@@ -89,43 +89,75 @@ forvalues fname = 2008 / 2016 {
     }
 }
 
+local yindex = 2008
 // Build panel dataset from excel data files. Begin with 05 06 07 series.
-foreach froot in oncampusdiscipline050607 noncampusdiscipline050607 publicpropertydiscipline050607 {
-	import excel using "2008/`froot'.xls", clear firstrow
-	gen unitid = round(UNITID_P/10)
-	order unitid, first
-	drop UNITID_P INSTNM BRANCH Address City State Zip sector_desc ///
-	men_total women_total total FILTER05 FILTER06 FILTER07 sector_cd
-	collapse (sum) Weapon5 Drug5 Liquor5 Weapon6 Drug6 Liquor6 Weapon7 Drug7 Liquor7, by(unitid)
-	reshape long Weapon Drug Liquor, i(unitid) j(isYr)
-	replace isYr = isYr + 2000
-	local newroot = substr("`froot'",1,3)
-	foreach vroot in Weapon Drug Liquor {
-		local newsuf = substr("`vroot'",1,4)
-		rename `vroot' `newroot'`newsuf'
-	}
-	saveold "2008/`froot'.dta", replace version(13)
-}
-use 2008/oncampusdiscipline050607.dta, clear
-merge 1:1 unitid isYr using 2008/noncampusdiscipline050607.dta, nogenerate
-merge 1:1 unitid isYr using 2008/publicpropertydiscipline050607.dta, nogenerate
-gen double resWeap = .
-gen double resDrug = .
-gen double resLiqu = .
-foreach cname in Weapon Drug Liquor {
-	local newsuf = substr("`cname'",1,4)
-	label variable onc`newsuf' "Oncampus `cname' related disc refs"
-	label variable non`newsuf' "Noncampus `cname' related disc refs"
-	label variable pub`newsuf' "Public prpty `cname' related disc refs"
-	label variable res`newsuf' "Reshall `cname' related disc refs"
+foreach ys in 050607 060708 070809 080910 091011 101112 111213 121314 131415 {
+// foreach ys in 080910 091011 101112 111213 121314 131415 {
+    foreach froot in oncampusdiscipline`ys' noncampusdiscipline`ys' publicpropertydiscipline`ys' residencehalldiscipline`ys' {
+        capture confirm file "`yindex'/`froot'.xls"
+        if _rc == 0 {
+            di "Importing `yindex'/`froot'.xls"
+            import excel using "`yindex'/`froot'.xls", clear firstrow case(lower)
+            if `yindex' < 2011 {
+                gen unitid = round(unitid_p/100)
+            }
+            else {
+                gen unitid = round(unitid_p/1000)
+            }
+            order unitid, first
+            drop unitid_p instnm branch address city state zip sector_desc ///
+            men_total women_total total filter* sector_cd
+            collapse (sum) weapon* drug* liquor*, by(unitid)
+            di "Reshaping `yindex'/`froot'.xls"
+            reshape long weapon drug liquor, i(unitid) j(isYr)
+            replace isYr = isYr + 2000
+            tab isYr
+            local newroot = substr("`froot'",1,3)
+            foreach vroot in weapon drug liquor {
+                local newsuf = substr("`vroot'",1,4)
+                rename `vroot' `newroot'`newsuf'
+            }
+            di "Saving `yindex'/`froot'.dta"
+            saveold "`yindex'/`froot'.dta", replace version(13)
+        }
+    }
+    use `yindex'/oncampusdiscipline`ys'.dta, clear
+    merge 1:1 unitid isYr using `yindex'/noncampusdiscipline`ys'.dta, nogenerate
+    merge 1:1 unitid isYr using `yindex'/publicpropertydiscipline`ys'.dta, nogenerate
+    di "Checking for `yindex'/residencehalldiscipline`ys'.xls"
+    capture confirm file "`yindex'/residencehalldiscipline`ys'.xls"
+    if _rc == 0 {
+        merge 1:1 unitid isYr using `yindex'/residencehalldiscipline`ys'.dta, nogenerate
+    }
+    if `yindex' < 2010 {
+        gen double resweap = .
+        gen double resdrug = .
+        gen double resliqu = .
+    }
+    foreach cname in weapon drug liquor {
+        local newsuf = substr("`cname'",1,4)
+        label variable onc`newsuf' "Oncampus `cname' related disc refs"
+        label variable non`newsuf' "Noncampus `cname' related disc refs"
+        label variable pub`newsuf' "Public prpty `cname' related disc refs"
+        label variable res`newsuf' "Reshall `cname' related disc refs"
+    }
+    saveold "`yindex'CleryDiscipline.dta", version(13) replace
+    local yindex = `yindex' + 1
 }
 
+use 2008CleryDiscipline.dta, clear
+foreach y in 2009 2011 2013 2015 2016 {
+    merge 1:1 unitid isYr using `y'CleryDiscipline.dta, update nogenerate
+}
+
+cd ..
+saveold "$dtagbl", replace version(13)
 
 qui { 
-noi di "#####################################################################"
-noi di ""
-noi di "      Saved log $loggbl"
-noi di ""
-noi di "######################################################################"
+    noi di "#####################################################################"
+    noi di ""
+    noi di "      Saved log $loggbl"
+    noi di ""
+    noi di "######################################################################"
 }
 log close
