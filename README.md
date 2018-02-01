@@ -19,10 +19,10 @@ For background on the context and universe of higher education data see [StataIP
 - [3. Usage](#3-usage)
     - [3.1. clery_grabber.py](#31-clerygrabberpy)
     - [3.2. clery_discipline.do](#32-clerydisciplinedo)
-    - [clery_arrest.do](#cleryarrestdo)
-        - [3.2.1. Run from online](#321-run-from-online)
-        - [3.2.2. Suggested naming convention](#322-suggested-naming-convention)
-    - [3.3. Future implementations](#33-future-implementations)
+    - [3.3. clery_arrest.do](#33-cleryarrestdo)
+        - [3.3.1. Run from online](#331-run-from-online)
+        - [3.3.2. Suggested naming convention](#332-suggested-naming-convention)
+    - [3.4. Future implementations](#34-future-implementations)
 - [4. Testing And Develpment Log](#4-testing-and-develpment-log)
 
 <!-- /TOC -->
@@ -39,23 +39,26 @@ This Python script depends on Selenium and Geckodriver installations. This repo 
 
 Uses the files collected with `clery_grabber.py`. Combines and reshapes disciplinary referral Clery data.
 
-## clery_arrest.do
+## 3.3. clery_arrest.do
 
 Uses the files collected with `clery_grabber.py`. Combines and reshapes arrest Clery data.
 
-### 3.2.1. Run from online
+### 3.3.1. Run from online
 
 ```Stata
 do https://raw.githubusercontent.com/adamrossnelson/clerydata/master/clery_discipline.do
 ```
+```Stata
+do https://raw.githubusercontent.com/adamrossnelson/clerydata/master/clery_arrest.do
+```
 
-When running `clery_discipline.do` Stata will first ask for a preferred log file location (see section on suggested naming convention beloe). Following that it'll ask for the location of the `.zip` files downloaded using `clery_grabber.py`.
+Stata will first ask for a preferred log file location (see section on suggested naming convention beloe). Following that it'll ask for the location of the `.zip` files downloaded using `clery_grabber.py`.
 
-### 3.2.2. Suggested naming convention
+### 3.3.2. Suggested naming convention
 
-When prompted for a log file name suggested name is `CleryDisc05to16.log` which will also produce `CleryDisc05to16.dta` at the location you specify. (Update year reference as needed).
+When prompted for a log file name suggested name is `CleryDisc05to16.log` and/or `CleryArrest05to06.log` which will also produce `CleryDisc05to16.dta` and/or `CleryArrest05to06.dta` respectively at the log file location. (Update year reference as needed).
 
-## 3.3. Future implementations
+## 3.4. Future implementations
 
 In addition to disciplinary referral data, Clery data also includes data regarding crimes committed and/or arrests that occured on and around campus. Future code will be aded to assemble panels of crime, arrest, and other Clery data.
 
@@ -63,6 +66,7 @@ In addition to disciplinary referral data, Clery data also includes data regardi
 
 Date      | Developer             | Description
 ----------|-----------------------|----------------------
-01Jul2017 | Adam Ross Nelson      | Initial Build
-28Jan2018 | Adam Ross Nelson      | GitHub Rebuild
+01Jul2017 | Adam Ross Nelson      | Initial build
+28Jan2018 | Adam Ross Nelson      | GitHub rebuild
+01Feb2018 | Adam Ross Nelson      | Added arrest panel
 
