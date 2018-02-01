@@ -19,6 +19,7 @@ For background on the context and universe of higher education data see [StataIP
 - [3. Usage](#3-usage)
     - [3.1. clery_grabber.py](#31-clerygrabberpy)
     - [3.2. clery_discipline.do](#32-clerydisciplinedo)
+    - [clery_arrest.do](#cleryarrestdo)
         - [3.2.1. Run from online](#321-run-from-online)
         - [3.2.2. Suggested naming convention](#322-suggested-naming-convention)
     - [3.3. Future implementations](#33-future-implementations)
@@ -28,13 +29,19 @@ For background on the context and universe of higher education data see [StataIP
 
 # 3. Usage
 
+ Clery data is distributed in wide format and provides one observation per year institution per campus. The Stata files in this repo reshape Clery data to a more research ready long shape and collapses data to one observation per year per institution.
+
 ## 3.1. clery_grabber.py
 
 This Python script depends on Selenium and Geckodriver installations. This repo uses python to get Clery data because, unlike over at  [StataIPEDSAll](https://github.com/adamrossnelson/StataIPEDSAll) and [colscore](https://github.com/adamrossnelson/colscore) the data is not available from a stable URL. Open to suggestions on methods that might enable an opportunity implement `clery_grabber.py` in Stata.
 
 ## 3.2. clery_discipline.do
 
-This Stata script uses the files collected with `clery_grabber.py`. Its purpose is to combine and reshape disciplinary referral Clery data. Clery data is distributed in wide format and provides one observation per year institution per campus. `clery_grabber.py` reshapes to a more research ready long and collapses data to one observation per year per institution.
+Uses the files collected with `clery_grabber.py`. Combines and reshapes disciplinary referral Clery data.
+
+## clery_arrest.do
+
+Uses the files collected with `clery_grabber.py`. Combines and reshapes arrest Clery data.
 
 ### 3.2.1. Run from online
 
