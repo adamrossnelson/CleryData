@@ -3,8 +3,9 @@ clear all
 cls
 
 // REVISION HISTORY:
-// Jan 2018:     Adam Ross Nelson - GitHub ReBuild
-// Aug 2017:     Adam Ross Nelson - Initial Build
+// Mar 2018:  Adam Ross Nelson - Pending, update to include 2017
+// Jan 2018:  Adam Ross Nelson - GitHub ReBuild
+// Aug 2017:  Adam Ross Nelson - Initial Build
 
 // Builds panel data set of Clery disciplinary referrals.
 
@@ -16,6 +17,9 @@ cls
 // ( Crime2008EXCEL.zip, Crime2009EXCEL.zip, Crime2010EXCEL.zip
 //   Crime2011EXCEL.zip, Crime2012EXCEL.zip, Crime2013EXCEL.zip
 //   Crime2014EXCEL.zip, Crime2015EXCEL.zip, Crime2016EXCEL.zip )
+//
+//   Pending needs to be revised to include Crime2017Excel.zip.
+//   See: https://github.com/adamrossnelson/CleryData/issues/1
 // 
 // Assumes user has placed all files in same directory location. File picker
 // will ask for location of Crime2008EXCEL.zip and then look for subsequent
