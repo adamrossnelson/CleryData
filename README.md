@@ -69,4 +69,5 @@ Date      | Developer             | Description
 01Jul2017 | Adam Ross Nelson      | Initial build
 28Jan2018 | Adam Ross Nelson      | GitHub rebuild
 01Feb2018 | Adam Ross Nelson      | Added arrest panel
+02Apr2018 | Adam Ross Nelson      | Added support for newest `Crime2017Excel.zip`
 
