@@ -3,6 +3,7 @@ clear all
 cls
 
 // REVISION HISTORY:
+// Mar 2018:  Adam Ross Nelson - Pending, update to include 2017.zip
 // Feb 2018:     Adam Ross Nelson - GitHub ReBuild
 // Aug 2017:     Adam Ross Nelson - Initial Build
 
@@ -43,7 +44,7 @@ global f_zip = ""
 local error_count = 0
 
 // Loop through files years 2008 through 2016.
-forvalues fname = 2008 / 2016 {
+forvalues fname = 2008 / 2017 {
     local success = 0
     // Begin while loop and establish maximum errors.
     while `success' == 0  & `error_count' < 11 {
@@ -93,7 +94,7 @@ forvalues fname = 2008 / 2016 {
 
 local yindex = 2008
 // Build panel dataset from excel data files. Begin with 05 06 07 series.
-foreach ys in 050607 060708 070809 080910 091011 101112 111213 121314 131415 {
+foreach ys in 050607 060708 070809 080910 091011 101112 111213 121314 131415 141516 {
 // foreach ys in 080910 091011 101112 111213 121314 131415 {
     foreach froot in oncampusarrest`ys' noncampusarrest`ys' publicpropertyarrest`ys' residencehallarrest`ys' {
         capture confirm file "`yindex'/`froot'.xls"
@@ -143,7 +144,7 @@ foreach ys in 050607 060708 070809 080910 091011 101112 111213 121314 131415 {
 }
 
 use 2008CleryArrests.dta, clear
-foreach y in 2009 2011 2013 2015 2016 {
+foreach y in 2009 2011 2013 2015 2017 {
     merge 1:1 unitid isYr using `y'CleryArrests.dta, update nogenerate
 }
 
