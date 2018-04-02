@@ -29,21 +29,20 @@ For background on the context and universe of higher education data see [StataIP
 
 # 3. Usage
 
- Clery data is distributed in wide format and provides one observation per year institution per campus. The Stata files in this repo reshape Clery data to a more research ready long shape and collapses data to one observation per year per institution.
+ Clery data is distributed in "wide" format and provides one observation per year institution per campus (some institutions have more than one campus for Clery purposes). The Stata files in this repo reshape Clery data to a more research ready "long" shape and collapses data to one observation per year per institution.
 
 ## 3.1. clery_grabber.py
 
-This Python script depends on Selenium and Geckodriver installations. This repo uses python to get Clery data because, unlike over at  [StataIPEDSAll](https://github.com/adamrossnelson/StataIPEDSAll) and [colscore](https://github.com/adamrossnelson/colscore) the data is not available from a stable URL. Open to suggestions on methods that might enable an opportunity implement `clery_grabber.py` in Stata.
+Do File Name & Description | Suggested Nameing Convention
+---------------------------|-----------------------------
+`clery_grabber.py` <br> Quickly grabs Clery data files from `https://ope.ed.gov/campussafety/#/datafile/list`. Python script depends on Selenium and Geckodriver installations. | Not applicable
+`clery_discipline.do` <br> Uses the files downloaded from `https://ope.ed.gov/campussafety/#/datafile/list` to build a panel dataset of disciplinary referrals. | When prompted for log name <br> `CleryDisc05to16.log`
+`clery_arrest.do` <br> Uses the files downloaded from `https://ope.ed.gov/campussafety/#/datafile/list` to build a panel dataset of campus arrests. | When prompted for log name <br> `CleryArrest05to06.log`
 
-## 3.2. clery_discipline.do
 
-Uses the files collected with `clery_grabber.py`. Combines and reshapes disciplinary referral Clery data.
+This repo uses python to get Clery data because, unlike over at  [StataIPEDSAll](https://github.com/adamrossnelson/StataIPEDSAll) and [colscore](https://github.com/adamrossnelson/colscore) the data is not available from a stable URL. Open to suggestions on methods that might enable an opportunity implement `clery_grabber.py` in Stata.
 
-## 3.3. clery_arrest.do
-
-Uses the files collected with `clery_grabber.py`. Combines and reshapes arrest Clery data.
-
-### 3.3.1. Run from online
+## 3.2. Run from online
 
 ```Stata
 do https://raw.githubusercontent.com/adamrossnelson/clerydata/master/clery_discipline.do
@@ -52,15 +51,11 @@ do https://raw.githubusercontent.com/adamrossnelson/clerydata/master/clery_disci
 do https://raw.githubusercontent.com/adamrossnelson/clerydata/master/clery_arrest.do
 ```
 
-Stata will first ask for a preferred log file location (see section on suggested naming convention beloe). Following that it'll ask for the location of the `.zip` files downloaded using `clery_grabber.py`.
+Stata will first ask for a preferred log file location (see above for suggested naming conventions). Following log file specification Stata will ask for the location of the `.zip` files downloaded using `clery_grabber.py`.
 
-### 3.3.2. Suggested naming convention
+## 3.3. Future implementations
 
-When prompted for a log file name suggested name is `CleryDisc05to16.log` and/or `CleryArrest05to06.log` which will also produce `CleryDisc05to16.dta` and/or `CleryArrest05to06.dta` respectively at the log file location. (Update year reference as needed).
-
-## 3.4. Future implementations
-
-In addition to disciplinary referral data, Clery data also includes data regarding crimes committed and/or arrests that occured on and around campus. Future code will be aded to assemble panels of crime, arrest, and other Clery data.
+In addition to disciplinary referral data, Clery data also includes data regarding crimes committed that occured (were reported) on and around campus. Future code will be aded to assemble panels of crime, and other Clery data.
 
 # 4. Testing And Develpment Log
 
