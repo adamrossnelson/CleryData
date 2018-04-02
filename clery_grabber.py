@@ -1,6 +1,7 @@
 # REVISION HISTORY:
-# Jan 2018:     Adam Ross Nelson - GitHub ReBuild
-# Aug 2017:     Adam Ross Nelson - Initial Build
+# Mar 2018:  Adam Ross Nelson - Added sleep to give page load time.
+# Jan 2018:  Adam Ross Nelson - GitHub ReBuild
+# Aug 2017:  Adam Ross Nelson - Initial Build
 #
 # Quickly grabs Clery data files from
 # https://ope.ed.gov/campussafety/#/datafile/list
@@ -41,6 +42,8 @@ except WebDriverException:
     sys.exit()
 
 while True:
+    # Sleep for one second to give time for page load.
+    sleep(1)
     elems = browser.find_elements_by_css_selector("ul.file-list li:first-child a")
     if elems != []:
         print('\n\n    Succes: Visit Firefox window to complete file downloads.', end='\n')
