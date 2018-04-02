@@ -61,9 +61,12 @@ while `fname' <= 2017 {
 		}
 	}
 	local root_was = substr("$f_zip", 1, strpos("$f_zip","\Crime")) 
+    capture mkdir "`fname'"
+    cd "`fname'"
 	qui unzipfile "`root_was'Crime`fname'EXCEL.zip", replace
 	di "Unzipped `root_was'Crime`fname'EXCEL.zip"
-	
+	cd ..
+
 	// Advance to next year.
 	local ++ fname
 	// Check for next year's file in same location as previous year's.
