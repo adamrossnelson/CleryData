@@ -3,7 +3,7 @@ Repo that collects Clery data (`clery_grabber.py`) and the assembles Clery Data 
 
 All files are intended to be reverse compatible to Version 13. Use of version control. Also uses `saveold`. Intended as reverse compatible, but not tested. **Notes about assumptions or limitations maintained in the do files.**
 
-Each October 1st institutions are required to report Clery tallies. Generally each Spring the US Department of Education releases the data collected from those tallies. Spring 2017 release, for example, contained data from 2014 2015 & 2016. This repo provides scripts that will build a panel data set representing years 2005 through the most recently available year. If I'm behind on updating to include latest data, either submit an issue for me to resolve and/or fork update and submit a pull request.
+Each October 1st institutions are required to report Clery tallies. Generally each Spring the US Department of Education releases the data collected from those tallies. Spring 2017 release, for example, contained data from 2014 2015 & 2016. This repo provides scripts that will build a panel data set representing years 2005 through the most recently available year.
 
 The data comes from: https://ope.ed.gov/campussafety/#/datafile/list. This repo uses methods and procedures similar to those found in [StataIPEDSAll](https://github.com/adamrossnelson/StataIPEDSAll) and [colscore](https://github.com/adamrossnelson/colscore).
 
@@ -18,11 +18,8 @@ For background on the context and universe of higher education data see [StataIP
 - [2. Table of Contents](#2-table-of-contents)
 - [3. Usage](#3-usage)
     - [3.1. clery_grabber.py](#31-clerygrabberpy)
-    - [3.2. clery_discipline.do](#32-clerydisciplinedo)
-    - [3.3. clery_arrest.do](#33-cleryarrestdo)
-        - [3.3.1. Run from online](#331-run-from-online)
-        - [3.3.2. Suggested naming convention](#332-suggested-naming-convention)
-    - [3.4. Future implementations](#34-future-implementations)
+    - [3.2. Run from online](#32-run-from-online)
+    - [3.3. Future implementations](#33-future-implementations)
 - [4. Testing And Develpment Log](#4-testing-and-develpment-log)
 
 <!-- /TOC -->
