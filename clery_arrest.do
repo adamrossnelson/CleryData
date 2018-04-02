@@ -38,58 +38,47 @@ local sp char(13) char(10) char(13) char(10)  // Define spacer.
 version 13                                    // Enforce version compatibility.
 di c(pwd)                                     // Confrim working directory.
 
-// Declare variables used in loop/logic below.
-global root_was = ""
+// Declar program flow variables.
+local need_to_ask = 0
+local fname = 2008
+local max_error = 0
 global f_zip = ""
-local error_count = 0
 
-// Loop through files years 2008 through 2016.
-forvalues fname = 2008 / 2017 {
-    local success = 0
-    // Begin while loop and establish maximum errors.
-    while `success' == 0  & `error_count' < 11 {
-        local last_fname = `fname' - 1
-	    // Test if global $f_zip contains file name & location from previous iteration.
-        if strpos("$f_zip","\Crime`last_fname'") > 0 {
-	        // If global $f_zip containes file name & location from previous iteration.
-	        // calculate next file name & location. Assume next file in same location.
-            global root_was = substr("$f_zip", 1, strpos("$f_zip","\Crime"))
-            global f_zip = "$root_was" + "Crime`fname'EXCEL.zip"
-        }
-        // Test if global $f_zip specifies existing file.
-        capture confirm file "$f_zip"
-        if _rc == 0 & strpos("$f_zip","Crime`fname'EXCEL.zip") > 0 {
-	        // If file exists, proceed with file specified in $f_zip
-            di `sp' "  Proceed with $f_zip"
-        }
-        else {
-	        // If file does not exist, get input from user with file picker.
-            capture window fopen f_zip "Specify the location of Crime`fname'EXCEL.zip" "*.zip"
-        }
-        di "  Teseting for Crime`fname'EXCEL.zip"
-	    // Test if global $f_zip matches Clery data naming conventions.
-        if strpos("$f_zip","Crime`fname'EXCEL.zip") > 0 {
-	        // Provide output for user and log interpretation.
-            di "  Proceeding with $f_zip"
-	        // Make and change to directory for file extraction.
-            capture mkdir "`fname'"
-            cd "`fname'"
-	        // Extract clery data files.
-            qui unzipfile "$f_zip", replace
-	        // Return to base working directory.
-            cd ..
-            di `sp'
-            local success = 1
-        }
-	    // If global $f_zip does not match Clery data naming conventions.
-        else if strpos("$f_zip","Crime`fname'EXCEL.zip") == 0 {
-	        // Provide output for user and log interpretation.
-            di "  Incorrect user input and/or error locating file."
-            di "  There have been `error_count' out of 10 maximum errors." `sp'
-	        // Increment error count to avoid infinite loop.
-            local error_count = `error_count' + 1
-        }
-    }
+// While loop to work through files 2008 through 2017
+while `fname' <= 2017 {
+	// Display output for log file.
+	di `sp' "Working on `fname'"
+	if `fname' == 2008 | `need_to_ask' == 1 {
+		while strpos("$f_zip","Crime`fname'EXCEL.zip") == 0 & `max_error' < 6 {
+			capture window fopen f_zip "Specify location of Crime`fname'EXCEL.zip" "*.zip"
+			local need_to_ask = 0
+			local ++ max_error
+		}
+		if `max_error' == 6 {
+			di as error "ERROR: Maximum of six errors exceeded."
+			di as error "       File picker was looking for location of Crime`fname'EXCEL.zip"
+			error 119
+		}
+	}
+	local root_was = substr("$f_zip", 1, strpos("$f_zip","\Crime")) 
+	qui unzipfile "`root_was'Crime`fname'EXCEL.zip", replace
+	di "Unzipped `root_was'Crime`fname'EXCEL.zip"
+	
+	// Advance to next year.
+	local ++ fname
+	// Check for next year's file in same location as previous year's.
+	capture confirm file "`root_was'Crime`fname'EXCEL.zip"
+	// If next year's file does not exist, triger file-picker.
+	if _rc == 601 {
+		local need_to_ask = 1
+		local ++ max_error
+	}
+	// 
+	if `max_error' == 6 {
+		di as error "ERROR: Maximum of six errors exceeded."
+		di as error "       Could not find location of Crime`fname'EXCEL.zip"
+		error 119
+	}
 }
 
 local yindex = 2008
