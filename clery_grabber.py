@@ -9,6 +9,9 @@
 # Requires selenium and geckodriver-v0.19.1-win64.zip from 
 # https://github.com/mozilla/geckodriver/releases
 #
+# Requires Geckodrive from
+# https://github.com/mozilla/geckodriver/releases
+#
 # Use Stata to build research ready panel dataset see:
 # https://github.com/adamrossnelson/CleryData
 #

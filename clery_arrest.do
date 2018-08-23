@@ -4,8 +4,8 @@ cls
 
 // REVISION HISTORY:
 // Mar 2018:  Adam Ross Nelson - Pending, update to include 2017.zip
-// Feb 2018:     Adam Ross Nelson - GitHub ReBuild
-// Aug 2017:     Adam Ross Nelson - Initial Build
+// Feb 2018:  Adam Ross Nelson - GitHub ReBuild
+// Aug 2017:  Adam Ross Nelson - Initial Build
 
 // Builds panel data set of Clery arrest referrals.
 
@@ -50,20 +50,22 @@ while `fname' <= 2017 {
 	di `sp' "Working on `fname'"
 	if `fname' == 2008 | `need_to_ask' == 1 {
 		while strpos("$f_zip","Crime`fname'EXCEL.zip") == 0 & `max_error' < 6 {
-			capture window fopen f_zip "Specify location of Crime`fname'EXCEL.zip" "*.zip"
+			di "Specify location of Crime`fname'EXCEL.zip"
+			window fopen f_zip "Specify location of Crime`fname'EXCEL.zip" "Zip File (*.zip)|*.zip"
 			local need_to_ask = 0
 			local ++ max_error
 		}
 		if `max_error' == 6 {
-			di as error "ERROR: Maximum of six errors exceeded."
+			di as error "ERROR: Maximum of six errors occured."
 			di as error "       File picker was looking for location of Crime`fname'EXCEL.zip"
 			error 119
 		}
 	}
-	local root_was = substr("$f_zip", 1, strpos("$f_zip","\Crime")) 
+	local root_was = substr("$f_zip", 1, strpos("$f_zip","/Crime"))
     capture mkdir "`fname'"
     cd "`fname'"
-	qui unzipfile "`root_was'Crime`fname'EXCEL.zip", replace
+	qui unzipfile "`root_was'Crime`fname'EXCEL.zip"
+	// qui unzipfile "`root_was'Crime`fname'EXCEL.zip", replace
 	di "Unzipped `root_was'Crime`fname'EXCEL.zip"
 	cd ..
 
@@ -78,7 +80,7 @@ while `fname' <= 2017 {
 	}
 	// 
 	if `max_error' == 6 {
-		di as error "ERROR: Maximum of six errors exceeded."
+		di as error "ERROR: Maximum of six errors occured. (SECOND)"
 		di as error "       Could not find location of Crime`fname'EXCEL.zip"
 		error 119
 	}

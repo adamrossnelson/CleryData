@@ -3,7 +3,8 @@ clear all
 cls
 
 // REVISION HISTORY:
-// Mar 2018:  Adam Ross Nelson - Pending, update to include 2017.zip
+// Aug 2018:  Adam Ross Nelson - Revised syntax for Mac/PC x-compatibility.
+// Mar 2018:  Adam Ross Nelson - Update to include 2017.zip
 // Jan 2018:  Adam Ross Nelson - GitHub ReBuild
 // Aug 2017:  Adam Ross Nelson - Initial Build
 
@@ -17,9 +18,6 @@ cls
 // ( Crime2008EXCEL.zip, Crime2009EXCEL.zip, Crime2010EXCEL.zip
 //   Crime2011EXCEL.zip, Crime2012EXCEL.zip, Crime2013EXCEL.zip
 //   Crime2014EXCEL.zip, Crime2015EXCEL.zip, Crime2016EXCEL.zip )
-//
-//   Pending needs to be revised to include Crime2017Excel.zip.
-//   See: https://github.com/adamrossnelson/CleryData/issues/1
 // 
 // Assumes user has placed all files in same directory location. File picker
 // will ask for location of Crime2008EXCEL.zip and then look for subsequent
@@ -53,7 +51,8 @@ while `fname' <= 2017 {
 	di `sp' "Working on `fname'"
 	if `fname' == 2008 | `need_to_ask' == 1 {
 		while strpos("$f_zip","Crime`fname'EXCEL.zip") == 0 & `max_error' < 6 {
-			capture window fopen f_zip "Specify location of Crime`fname'EXCEL.zip" "*.zip"
+			di "Specify location of Crime`fname'EXCEL.zip"
+			window fopen f_zip "Specify location of Crime`fname'EXCEL.zip" "Zip File (*.zip)|*.zip"
 			local need_to_ask = 0
 			local ++ max_error
 		}
@@ -63,7 +62,7 @@ while `fname' <= 2017 {
 			error 119
 		}
 	}
-	local root_was = substr("$f_zip", 1, strpos("$f_zip","\Crime")) 
+	local root_was = substr("$f_zip", 1, strpos("$f_zip","/Crime")) 
     capture mkdir "`fname'"
     cd "`fname'"
 	qui unzipfile "`root_was'Crime`fname'EXCEL.zip", replace
