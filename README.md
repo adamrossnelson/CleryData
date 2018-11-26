@@ -37,7 +37,7 @@ Do File Name & Description | Suggested Nameing Convention
 `clery_arrest.do` <br> Uses the files downloaded from `https://ope.ed.gov/campussafety/#/datafile/list` to build a panel dataset of campus arrests. | When prompted for log name <br> `CleryArrest05to17.log`
 
 
-This repo uses python to get Clery data because, unlike over at  [StataIPEDSAll](https://github.com/adamrossnelson/StataIPEDSAll) and [colscore](https://github.com/adamrossnelson/colscore) the data is not available from a stable URL. Open to suggestions on methods that might enable an opportunity implement `clery_grabber.py` in Stata.
+This repo uses python to get Clery data because, unlike over at  [StataIPEDSAll](https://github.com/adamrossnelson/StataIPEDSAll) and [colscore](https://github.com/adamrossnelson/colscore) the data is not available from a stable URL. Open to suggestions on methods that might enable an opportunity to implement `clery_grabber.py` in Stata.
 
 ## 3.2. Run from online
 
